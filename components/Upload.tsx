@@ -20,10 +20,12 @@ const Upload: React.FC<UploadProps> = ({onComplete}) => {
         setProgress(0);
 
         const reader = new FileReader();
+        let intervalId: NodeJS.Timeout;
+
         reader.onload = (e) => {
             const base64Data = e.target?.result as string;
 
-            const intervalId = setInterval(() => {
+            intervalId = setInterval(() => {
                 setProgress((prevProgress) => {
                     if (prevProgress >= 100) {
                         clearInterval(intervalId);
@@ -38,6 +40,18 @@ const Upload: React.FC<UploadProps> = ({onComplete}) => {
                 });
             }, PROGRESS_INTERVAL_MS);
         };
+
+        reader.onerror = (error) => {
+            console.error("FileReader error:", error);
+            if (intervalId) {
+                clearInterval(intervalId);
+            }
+            setProgress(0);
+            if (onComplete) {
+                onComplete("error");
+            }
+        };
+
         reader.readAsDataURL(file);
     };
 
