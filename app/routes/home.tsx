@@ -112,7 +112,7 @@ export default function Home() {
                                 </div>
                                 <div className="card-body">
                                     <div>
-                                        <h3>name</h3>
+                                        <h3>{name}</h3>
                                         <div className="meta">
                                             <Clock size={12}></Clock>
                                             <span>
