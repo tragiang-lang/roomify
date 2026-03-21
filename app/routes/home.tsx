@@ -1,10 +1,11 @@
 import type {Route} from "./+types/home";
 import Navbar from "../../components/Navbar";
 import {Button} from "../../components/ui/Button";
-import React from "react";
+import React, {useState} from "react";
 import {ArrowRight, ArrowUpRight, Clock, Layers} from "lucide-react";
 import Upload from "../../components/Upload";
 import {useNavigate} from "react-router";
+import {createProject} from "../../lib/puter.action";
 
 export function meta({}: Route.MetaArgs) {
     return [
@@ -19,9 +20,31 @@ function Layer(props: { className: string }) {
 
 export default function Home() {
     const navigate = useNavigate();
-    const handleUploadComplete = async () => {
+    const [projects, setProjects] = useState<DesignItem[]>([]);
+
+    const handleUploadComplete = async (base64Image:string) => {
         const newId = Date.now().toString();
-        navigate(`/visualizer/${newId}`);
+        const name=`Residence ${newId}`;
+        const newItem= {
+            id: newId, name, sourceImage: base64Image,
+            renderedImage: undefined,
+            timestamp: Date.now()
+        }
+        const saved=await createProject({item:newItem,visibility:'private'})
+        if (!saved){
+            console.error("Failed to create project");
+            return false;
+        }
+
+        setProjects((prev)=>[ newItem,...prev]);
+
+        navigate(`/visualizer/${newId}`,{
+            state:{
+                initialImage:saved.sourceImage,
+                initialRendered:saved.renderedImage ||null,
+                name
+            }
+        });
         return true;
     }
 
@@ -77,33 +100,37 @@ export default function Home() {
                         </div>
                     </div>
                     <div className="projects-grid">
-                        <div className="project-card group">
-                            <div className="preview">
-                                <img
-                                    src="https://roomify-mlhuk267-dfwu1i.puter.site/projects/1770803585402/rendered.png"
-                                    alt="Project"/>
-                                <div className="badge">
-                                    <span>Community</span>
-                                </div>
-                            </div>
-                            <div className="card-body">
-                                <div>
-                                    <h3>Project Manhattan</h3>
-                                    <div className="meta">
-                                        <Clock size={12}></Clock>
-                                        <span>
-                                            {new Date('01.01.2027').toLocaleString()}
-                                        </span>
-                                        <span>
-                                            By Giang.D
-                                        </span>
+                        {projects.map(({id,name,renderedImage,sourceImage,timestamp})=>(
+                            <div className="project-card group">
+                                <div className="preview">
+                                    <img
+                                        src={renderedImage||sourceImage}
+                                        alt="Project"/>
+                                    <div className="badge">
+                                        <span>Community</span>
                                     </div>
                                 </div>
-                                <div className="arrow">
-                                    <ArrowUpRight size={18}></ArrowUpRight>
+                                <div className="card-body">
+                                    <div>
+                                        <h3>name</h3>
+                                        <div className="meta">
+                                            <Clock size={12}></Clock>
+                                            <span>
+                                            {new Date(timestamp).toLocaleString()}
+                                        </span>
+                                            <span>
+                                            By Giang.D
+                                        </span>
+                                        </div>
+                                    </div>
+                                    <div className="arrow">
+                                        <ArrowUpRight size={18}></ArrowUpRight>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+
+                        ))}
+
                     </div>
                 </div>
             </section>
