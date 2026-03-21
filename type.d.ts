@@ -1,10 +1,10 @@
-interface AuthState {
+export interface AuthState {
     isSignedIn: boolean;
     userName: string | null;
     userId: string | null;
 }
 
-interface Material {
+export interface Material {
     id: string;
     name: string;
     thumbnail: string;
@@ -12,7 +12,7 @@ interface Material {
     category: "floor" | "wall" | "furniture";
 }
 
-interface DesignItem {
+export interface DesignItem {
     id: string;
     name?: string | null;
     sourceImage: string;
@@ -27,25 +27,25 @@ interface DesignItem {
     isPublic?: boolean;
 }
 
-interface DesignConfig {
+export interface DesignConfig {
     floor: string;
     walls: string;
     style: string;
 }
 
-enum AppStatus {
+export enum AppStatus {
     IDLE = "IDLE",
     UPLOADING = "UPLOADING",
     PROCESSING = "PROCESSING",
     READY = "READY",
 }
 
-type RenderCompletePayload = {
+export type RenderCompletePayload = {
     renderedImage: string;
     renderedPath?: string;
 };
 
-type VisualizerLocationState = {
+export type VisualizerLocationState = {
     initialImage?: string;
     initialRender?: string | null;
     ownerId?: string | null;
@@ -53,7 +53,7 @@ type VisualizerLocationState = {
     sharedBy?: string | null;
 };
 
-interface VisualizerProps {
+export interface VisualizerProps {
     onBack: () => void;
     initialImage: string | null;
     onRenderComplete?: (payload: RenderCompletePayload) => void;
@@ -67,25 +67,25 @@ interface VisualizerProps {
     canUnshare?: boolean;
 }
 
-interface UploadProps {
+export interface UploadProps {
     onComplete: (base64File: string) => Promise<boolean | void> | boolean | void;
     className?: string;
 }
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: "primary" | "secondary" | "ghost" | "outline";
     size?: "sm" | "md" | "lg";
     fullWidth?: boolean;
 }
 
-interface CardProps {
+export interface CardProps {
     children: React.ReactNode;
     className?: string;
     title?: string;
     action?: React.ReactNode;
 }
 
-type AuthContext = {
+export type AuthContext = {
     isSignedIn: boolean;
     userName: string | null;
     userId: string | null;
@@ -94,7 +94,7 @@ type AuthContext = {
     signOut: () => Promise<boolean>;
 };
 
-type AuthRequiredModalProps = {
+export type AuthRequiredModalProps = {
     isOpen: boolean;
     onConfirm: () => void;
     onCancel: () => void;
@@ -109,19 +109,19 @@ type ShareStatus = "idle" | "saving" | "done";
 type HostingConfig = { subdomain: string };
 type HostedAsset = { url: string };
 
-interface StoreHostedImageParams {
+export interface StoreHostedImageParams {
     hosting: HostingConfig | null;
     url: string;
     projectId: string;
     label: "source" | "rendered";
 }
 
-interface CreateProjectParams {
+export interface CreateProjectParams {
     item: DesignItem;
     visibility?: "private" | "public";
 }
 
-interface Generate3DViewParams {
+export interface Generate3DViewParams {
     sourceImage: string;
     projectId?: string | null;
 }

@@ -1,3 +1,4 @@
+import type {CreateProjectParams, DesignItem} from "../type";
 import puter from "@heyputer/puter.js";
 import type {User} from "@heyputer/puter.js/types/modules/auth";
 import * as wasi from "node:wasi";

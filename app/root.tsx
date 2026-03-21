@@ -1,3 +1,4 @@
+import type {AuthState} from "../type";
 import {
   isRouteErrorResponse,
   Links,

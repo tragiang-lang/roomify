@@ -1,3 +1,4 @@
+import type {DesignItem} from "../../type";
 import type {Route} from "./+types/home";
 import Navbar from "../../components/Navbar";
 import {Button} from "../../components/ui/Button";
