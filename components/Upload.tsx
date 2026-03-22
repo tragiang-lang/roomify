@@ -2,6 +2,7 @@ import React, {useState, useRef} from 'react'
 import {useOutletContext} from "react-router";
 import {CheckCircle2, ImageIcon, UploadIcon} from "lucide-react";
 import {PROGRESS_INTERVAL_MS, PROGRESS_STEP, REDIRECT_DELAY_MS} from "../lib/constant";
+import type {AuthContext} from "../type";
 
 interface UploadProps {
     onComplete?: (data: string) => void;
